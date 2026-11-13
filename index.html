@@ -1,48 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MiniBiz - Đăng nhập</title>
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>MiniBiz - Tổng quan</title>
   </head>
+  <body class="dashboard-page">
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Điều hướng chính">
+        <a class="sidebar-brand" href="index.html" aria-label="MiniBiz - Tổng quan">
+          <span class="brand-mark">M</span><span>Mini<span>Biz</span></span>
+        </a>
+        <p class="sidebar-caption">MENU</p>
+        <nav class="sidebar-nav">
+          <a class="nav-link is-active" href="#overview"><span class="nav-icon">⌂</span>Tổng quan</a>
+          <a class="nav-link" href="#products"><span class="nav-icon">▦</span>Sản phẩm</a>
+          <a class="nav-link" href="#orders"><span class="nav-icon">▤</span>Đơn hàng</a>
+          <a class="nav-link" href="#inventory"><span class="nav-icon">▣</span>Kho hàng</a>
+          <a class="nav-link" href="#customers"><span class="nav-icon">♙</span>Khách hàng</a>
+          <a class="nav-link" href="#revenue"><span class="nav-icon">↗</span>Doanh thu</a>
+          <a class="nav-link" href="#assistant"><span class="nav-icon">✦</span>Trợ lý AI</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="nav-link" href="#settings"><span class="nav-icon">⚙</span>Cài đặt</a>
+          <div class="sidebar-profile">
+            <span class="avatar avatar-small" id="sidebarAvatar">V</span>
+            <span class="profile-copy"><strong id="sidebarName">Vinh</strong><small>Quản trị viên</small></span>
+            <button class="icon-button signout-icon" id="signOutButton" type="button" aria-label="Đăng xuất" title="Đăng xuất">↪</button>
+          </div>
+        </div>
+      </aside>
 
-  <body>
-    <main>
-      <section>
-        <h1>MiniBiz</h1>
-        <p>Trợ lý quản lý kinh doanh thông minh</p>
+      <main class="dashboard-main">
+        <header class="topbar">
+          <div class="topbar-welcome">
+            <p class="eyebrow">BẢNG ĐIỀU KHIỂN</p>
+            <h1>Xin chào, <span id="greetingName">Vinh</span>! <span aria-hidden="true">👋</span></h1>
+            <p class="topbar-date" id="currentDate"></p>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Thông báo">
+              <span aria-hidden="true">♧</span><i></i>
+            </button>
+            <button class="account-button" id="accountButton" type="button" aria-label="Tài khoản">
+              <span class="avatar" id="topAvatar">V</span>
+              <span class="account-copy"><strong id="topName">Vinh</strong><small id="userEmail">Đang tải...</small></span>
+              <span class="account-chevron" aria-hidden="true">⌄</span>
+            </button>
+          </div>
+        </header>
 
-        <h2>Đăng nhập</h2>
-
-        <form>
-          <div>
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Nhập email của bạn"
-              required
-            />
+        <section class="dashboard-content" id="overview" aria-labelledby="overviewTitle">
+          <div class="section-heading">
+            <div><h2 id="overviewTitle">Tổng quan</h2><p>Theo dõi nhanh tình hình kinh doanh của bạn.</p></div>
+            <button class="date-filter" type="button"><span aria-hidden="true">▦</span> 7 ngày qua <span aria-hidden="true">⌄</span></button>
           </div>
 
-          <div>
-            <label for="password">Mật khẩu</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Nhập mật khẩu"
-              required
-            />
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-card-top"><span>Doanh thu hôm nay</span><span class="stat-icon blue">↗</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu đơn hàng</span></article>
+            <article class="stat-card"><div class="stat-card-top"><span>Đơn hàng</span><span class="stat-icon violet">▤</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu đơn hàng</span></article>
+            <article class="stat-card"><div class="stat-card-top"><span>Sản phẩm</span><span class="stat-icon orange">▦</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu sản phẩm</span></article>
+            <article class="stat-card"><div class="stat-card-top"><span>Số dư tài khoản</span><span class="stat-icon green">₫</span></div><strong class="stat-value"><span id="userBalance">0</span><small> đ</small></strong><span class="stat-note">Số dư MiniBiz của bạn</span></article>
           </div>
 
-          <button type="submit">Đăng nhập</button>
-        </form>
+          <div class="dashboard-panels">
+            <article class="panel revenue-panel" id="revenue">
+              <div class="panel-heading"><div><h3>Doanh thu</h3><p>Biểu đồ doanh thu sẽ hiển thị khi có đơn hàng.</p></div><span class="panel-menu" aria-hidden="true">•••</span></div>
+              <div class="chart-empty"><div class="empty-chart-icon">↗</div><strong>Chưa có dữ liệu</strong><span>Doanh thu sẽ được tổng hợp tại đây.</span></div>
+            </article>
+            <article class="panel orders-panel" id="orders">
+              <div class="panel-heading"><div><h3>Đơn hàng gần đây</h3><p>Các đơn hàng mới nhất của cửa hàng.</p></div><a class="panel-link" href="#orders">Xem tất cả</a></div>
+              <div class="empty-orders"><span class="empty-orders-icon">▤</span><strong>Chưa có đơn hàng</strong><span>Đơn hàng mới sẽ xuất hiện tại đây.</span></div>
+            </article>
+          </div>
+          <p class="dashboard-status" id="homeStatus" role="status" aria-live="polite"></p>
+        </section>
+      </main>
+    </div>
 
-        <p>
-          Chưa có tài khoản?
-          <a href="register.html">Đăng ký ngay</a>
-        </p>
-      </section>
-    </main>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+      const homeStatus = document.getElementById("homeStatus");
+      const userEmail = document.getElementById("userEmail");
+      const userBalance = document.getElementById("userBalance");
+      const currentDate = document.getElementById("currentDate");
+
+      currentDate.textContent = new Intl.DateTimeFormat("vi-VN", {
+        weekday: "long", day: "numeric", month: "long", year: "numeric"
+      }).format(new Date());
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        const displayName = user.displayName || "Vinh";
+        const initial = displayName.trim().charAt(0).toUpperCase() || "V";
+        document.getElementById("greetingName").textContent = displayName;
+        document.getElementById("topName").textContent = displayName;
+        document.getElementById("sidebarName").textContent = displayName;
+        document.getElementById("topAvatar").textContent = initial;
+        document.getElementById("sidebarAvatar").textContent = initial;
+        userEmail.textContent = user.email || "";
+
+        const userRef = firebase.firestore().collection("users").doc(user.uid);
+        userRef.get().then(function (snapshot) {
+          const userData = snapshot.exists ? snapshot.data() : { balance: 0 };
+          if (!snapshot.exists) return userRef.set({ email: user.email || "", balance: 0 }, { merge: true });
+          if (userData.balance != null) userBalance.textContent = Number(userData.balance).toLocaleString("vi-VN");
+        }).catch(function () {
+          homeStatus.textContent = "Không tải được số dư tài khoản.";
+        });
+      });
+
+      document.getElementById("signOutButton").addEventListener("click", function () {
+        firebase.auth().signOut().then(function () {
+          window.location.replace("login.html");
+        }).catch(function () {
+          homeStatus.textContent = "Không thể đăng xuất. Vui lòng thử lại.";
+        });
+      });
+
+      document.getElementById("notificationButton").addEventListener("click", function () {
+        homeStatus.textContent = "Bạn chưa có thông báo mới.";
+      });
+
+      document.querySelectorAll('.sidebar-nav .nav-link[href^="#"]').forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          if (link.getAttribute("href") !== "#overview") {
+            event.preventDefault();
+            homeStatus.textContent = "Mục này sẽ sớm có mặt trong MiniBiz.";
+          }
+          document.querySelectorAll(".sidebar-nav .nav-link").forEach(function (item) { item.classList.remove("is-active"); });
+          link.classList.add("is-active");
+        });
+      });
+    </script>
   </body>
 </html>

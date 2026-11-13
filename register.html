@@ -1,47 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>MiniBiz - Đăng ký</title>
   </head>
-
-  <body>
+  <body data-auth-page="register">
     <main>
       <section>
-        <h1>MiniBiz</h1>
+        <div class="brand-heading">
+          <h1>MiniBiz</h1>
+          <details class="brand-help">
+            <summary aria-label="MiniBiz là gì?">?</summary>
+            <div class="brand-help-popover" role="tooltip">
+              MiniBiz là trợ lý quản lý kinh doanh thông minh, giúp bạn theo dõi hoạt động kinh doanh dễ dàng hơn.
+            </div>
+          </details>
+        </div>
+        <p>Trợ lý quản lý kinh doanh thông minh</p>
+        <h2>Đăng ký</h2>
 
-        <h2>Welcome Back</h2>
-
-        <form>
-          <div>
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Nhập email của bạn"
-              required
-            />
-          </div>
-
-          <div>
-            <label for="password">Mật khẩu</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Nhập mật khẩu"
-              required
-            />
-          </div>
-
-          <button type="submit">Đăng nhập</button>
+        <form class="auth-form" id="loginForm">
+          <label id="authNameField" hidden>
+            Tên của bạn
+            <input id="authName" name="name" type="text" autocomplete="name" placeholder="Tên bạn" />
+          </label>
+          <label>
+            Email
+            <input id="authEmail" name="email" type="email" autocomplete="email" placeholder="ban@email.com" required />
+          </label>
+          <label>
+            Mật khẩu
+            <input id="authPassword" name="password" type="password" autocomplete="new-password" placeholder="Ít nhất 6 ký tự" minlength="6" required />
+          </label>
+          <button class="button button-primary auth-submit" id="authSubmit" type="submit">Đăng ký</button>
+          <div class="auth-separator"><span>hoặc tiếp tục với</span></div>
+          <button class="auth-google-button" id="googleLogin" type="button"><span class="google-mark" aria-hidden="true">G</span>Tiếp tục với Google</button>
+          <button class="auth-facebook-button" id="facebookLogin" type="button"><span class="facebook-mark" aria-hidden="true">f</span>Tiếp tục với Facebook</button>
         </form>
-
-        <p>
-          Chưa có tài khoản?
-          <a href="register.html">Đăng ký ngay</a>
-        </p>
+        <p class="auth-signup-button">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p>
+        <p class="auth-status" id="authStatus" role="status" aria-live="polite"></p>
       </section>
     </main>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
   </body>
 </html>
