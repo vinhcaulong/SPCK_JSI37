@@ -31,7 +31,7 @@ function login() {
       setStatus("✅ Đăng nhập thành công");
       createUserIfNotExist(user);
       if (document.getElementById("authPage")) {
-        window.location.href = "menu.html";
+        window.location.href = "index.html";
       }
     })
     .catch((err) => setStatus("❌ Lỗi đăng nhập: " + err.message));

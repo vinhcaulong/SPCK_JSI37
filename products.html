@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/products.css" />
+    <title>MiniBiz - Sản phẩm</title>
+  </head>
+
+  <body class="dashboard-page">
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Điều hướng chính">
+        <a
+          class="sidebar-brand"
+          href="index.html"
+          aria-label="MiniBiz - Tổng quan"
+        >
+          <span class="brand-mark">M</span><span>Mini<span>Biz</span></span>
+        </a>
+        <p class="sidebar-caption">MENU</p>
+        <nav class="sidebar-nav">
+          <a class="nav-link" href="index.html"
+            ><span class="nav-icon">⌂</span>Tổng quan</a
+          >
+          <a class="nav-link" href="products.html"
+            ><span class="nav-icon">▦</span>Sản phẩm</a
+          >
+          <a class="nav-link" href="order.html"
+            ><span class="nav-icon">▤</span>Đơn hàng</a
+          >
+          <a class="nav-link" href="index.html#inventory"
+            ><span class="nav-icon">▣</span>Kho hàng</a
+          >
+          <a class="nav-link" href="index.html#customers"
+            ><span class="nav-icon">♙</span>Khách hàng</a
+          >
+          <a class="nav-link" href="index.html#revenue"
+            ><span class="nav-icon">↗</span>Doanh thu</a
+          >
+          <a class="nav-link" href="index.html#assistant"
+            ><span class="nav-icon">✦</span>Trợ lý AI</a
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="nav-link" href="index.html"
+            ><span class="nav-icon">⚙</span>Quay lại tổng quan</a
+          >
+          <div class="sidebar-profile">
+            <span class="avatar avatar-small" id="sidebarAvatar"></span>
+            <span class="profile-copy"
+              ><strong id="sidebarName">Username</strong
+              ><small>Quản trị viên</small></span
+            >
+            <button
+              class="icon-button signout-icon"
+              id="signOutButton"
+              type="button"
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
+            >
+              ↪
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="topbar">
+          <div class="topbar-welcome">
+            <p class="eyebrow">QUẢN LÝ CỬA HÀNG</p>
+            <h1>
+              Xin chào, <span id="greetingName">Username</span>!
+              <span aria-hidden="true">👋</span>
+            </h1>
+            <p class="topbar-date">Quản lý cửa hàng và sản phẩm của bạn.</p>
+          </div>
+          <div class="topbar-actions">
+            <a
+              class="account-button"
+              href="index.html"
+              aria-label="Tài khoản và tổng quan"
+            >
+              <span class="avatar" id="topAvatar">V</span>
+              <span class="account-copy"
+                ><strong id="topName">Vinh</strong
+                ><small id="userEmail">Đang tải...</small></span
+              >
+            </a>
+          </div>
+        </header>
+
+        <section
+          class="dashboard-content products-content"
+          aria-labelledby="productsTitle"
+        >
+          <div class="section-heading">
+            <div>
+              <h2 id="productsTitle">Sản phẩm</h2>
+              <p>Quản lý danh sách sản phẩm của cửa hàng.</p>
+            </div>
+          </div>
+          <form class="panel store-create-form" id="storeForm">
+            <div class="store-create-heading">
+              <h3>Tạo cửa hàng</h3>
+              <p>Tạo cửa hàng trước khi thêm sản phẩm.</p>
+            </div>
+            <div class="store-name-field">
+              <label for="storeName">Tên cửa hàng</label>
+              <input
+                id="storeName"
+                name="name"
+                type="text"
+                maxlength="100"
+                placeholder="Ví dụ: Cửa hàng MiniBiz"
+                required
+              />
+            </div>
+            <button class="product-submit" id="storeSubmit" type="submit">
+              Tạo cửa hàng
+            </button>
+            <p
+              class="product-status"
+              id="storeStatus"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+          <div class="products-layout">
+            <form class="panel product-form" id="productForm">
+              <h3>Thêm sản phẩm</h3>
+              <label for="productStore">Cửa hàng</label>
+              <select
+                id="productStore"
+                name="storeId"
+                required
+                disabled
+              ></select>
+              <label for="productSku">Mã SKU</label>
+              <input
+                id="productSku"
+                name="sku"
+                type="text"
+                maxlength="80"
+                placeholder="Ví dụ: AO-001"
+                required
+              />
+              <label for="productName">Tên sản phẩm</label>
+              <input
+                id="productName"
+                name="name"
+                type="text"
+                maxlength="120"
+                placeholder="Ví dụ: Áo thun"
+                required
+              />
+              <label for="productSellingPrice">Giá bán (đ)</label>
+              <input
+                id="productSellingPrice"
+                name="sellingPrice"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Ví dụ: 150000"
+                required
+              />
+              <label for="productCostPrice">Giá vốn (đ)</label>
+              <input
+                id="productCostPrice"
+                name="costPrice"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Ví dụ: 100000"
+                required
+              />
+              <label for="productQuantity">Số lượng</label>
+              <input
+                id="productQuantity"
+                name="quantity"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="Ví dụ: 20"
+                required
+              />
+              <button
+                class="product-submit"
+                id="productSubmit"
+                type="submit"
+                disabled
+              >
+                Thêm sản phẩm
+              </button>
+              <p
+                class="product-status"
+                id="productStatus"
+                role="status"
+                aria-live="polite"
+              ></p>
+            </form>
+            <div class="panel product-list-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Danh sách sản phẩm</h3>
+                  <p>Sản phẩm được lưu và cập nhật trực tiếp từ Firebase.</p>
+                </div>
+              </div>
+              <div class="product-list" id="productList" aria-live="polite">
+                <p class="product-empty">Đang tải sản phẩm...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/products.js"></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+.products-content { padding-top: 0; }
+.store-create-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px 14px; margin-bottom: 16px; }
+.store-create-heading { grid-column: 1 / -1; }
+.store-create-heading h3 { margin: 0 0 4px; color: #20344f; font-size: 14px; }
+.store-create-heading p { margin: 0; color: #8492a6; font-size: 11px; }
+.store-name-field { display: grid; gap: 8px; }
+.store-name-field label, .product-form label { color: #50627b; font-size: 11px; font-weight: 600; }
+.store-name-field input, .product-form input, .product-form select {
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: #fff;
+  color: #50627b;
+  font: inherit;
+  font-size: 12px;
+}
+.store-create-form .product-status { grid-column: 1 / -1; }
+.products-layout { display: grid; grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr); gap: 16px; }
+.product-form { display: grid; align-content: start; gap: 10px; }
+.product-form h3 { margin: 0 0 7px; color: #20344f; font-size: 14px; }
+.product-submit {
+  min-height: 42px;
+  margin-top: 5px;
+  border: 0;
+  border-radius: 9px;
+  background: #3478f6;
+  color: #fff;
+  font-size: 12px;
+}
+.product-submit:hover { background: #2464db; }
+.product-submit:disabled, .product-delete:disabled { cursor: wait; opacity: .65; }
+.product-status { min-height: 16px; margin: 0; color: #64748b; font-size: 11px; }
+.product-list { display: grid; gap: 10px; margin-top: 16px; }
+.product-empty { margin: 0; padding: 22px 10px; color: #8794a7; font-size: 12px; text-align: center; }
+.product-item { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 0; border-top: 1px solid #edf0f5; }
+.product-details { min-width: 0; }
+.product-details h4 { overflow-wrap: anywhere; margin: 0 0 5px; color: #23344e; font-size: 12px; }
+.product-details p { margin: 0; color: #8492a6; font-size: 11px; }
+.product-delete { min-height: 34px; padding: 0 12px; border: 1px solid #f1d5d5; border-radius: 8px; background: #fff; color: #c44747; font-size: 11px; }
+.product-delete:hover { background: #fff5f5; }
+
+@media (max-width: 1050px) {
+  .products-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .products-content { padding-top: 0; }
+  .store-create-form { grid-template-columns: minmax(0, 1fr); }
+  .store-create-heading, .store-create-form .product-status { grid-column: auto; }
+}

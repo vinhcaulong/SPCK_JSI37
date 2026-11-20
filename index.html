@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f3f6fa" />
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="css/index.css" />
     <title>MiniBiz - Tổng quan</title>
   </head>
   <body class="dashboard-page">
@@ -15,13 +15,13 @@
         </a>
         <p class="sidebar-caption">MENU</p>
         <nav class="sidebar-nav">
-          <a class="nav-link is-active" href="#overview"><span class="nav-icon">⌂</span>Tổng quan</a>
-          <a class="nav-link" href="#products"><span class="nav-icon">▦</span>Sản phẩm</a>
-          <a class="nav-link" href="#orders"><span class="nav-icon">▤</span>Đơn hàng</a>
-          <a class="nav-link" href="#inventory"><span class="nav-icon">▣</span>Kho hàng</a>
-          <a class="nav-link" href="#customers"><span class="nav-icon">♙</span>Khách hàng</a>
-          <a class="nav-link" href="#revenue"><span class="nav-icon">↗</span>Doanh thu</a>
-          <a class="nav-link" href="#assistant"><span class="nav-icon">✦</span>Trợ lý AI</a>
+          <a class="nav-link is-active" href="index.html"><span class="nav-icon">⌂</span>Tổng quan</a>
+          <a class="nav-link" href="products.html"><span class="nav-icon">▦</span>Sản phẩm</a>
+          <a class="nav-link" href="order.html"><span class="nav-icon">▤</span>Đơn hàng</a>
+          <a class="nav-link" href="inventory.html"><span class="nav-icon">▣</span>Kho hàng</a>
+          <a class="nav-link" href="customers.html"><span class="nav-icon">♙</span>Khách hàng</a>
+          <a class="nav-link" href="revenue.html"><span class="nav-icon">↗</span>Doanh thu</a>
+          <a class="nav-link" href="assistant.html"><span class="nav-icon">✦</span>Trợ lý AI</a>
         </nav>
         <div class="sidebar-bottom">
           <a class="nav-link" href="#settings"><span class="nav-icon">⚙</span>Cài đặt</a>
@@ -61,7 +61,7 @@
           <div class="stats-grid">
             <article class="stat-card"><div class="stat-card-top"><span>Doanh thu hôm nay</span><span class="stat-icon blue">↗</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu đơn hàng</span></article>
             <article class="stat-card"><div class="stat-card-top"><span>Đơn hàng</span><span class="stat-icon violet">▤</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu đơn hàng</span></article>
-            <article class="stat-card"><div class="stat-card-top"><span>Sản phẩm</span><span class="stat-icon orange">▦</span></div><strong class="stat-value">—</strong><span class="stat-note">Chưa có dữ liệu sản phẩm</span></article>
+            <article class="stat-card"><div class="stat-card-top"><span>Sản phẩm</span><span class="stat-icon orange">▦</span></div><strong class="stat-value" id="productCount">0</strong><span class="stat-note">Sản phẩm trong cửa hàng</span></article>
             <article class="stat-card"><div class="stat-card-top"><span>Số dư tài khoản</span><span class="stat-icon green">₫</span></div><strong class="stat-value"><span id="userBalance">0</span><small> đ</small></strong><span class="stat-note">Số dư MiniBiz của bạn</span></article>
           </div>
 
@@ -77,13 +77,14 @@
           </div>
           <p class="dashboard-status" id="homeStatus" role="status" aria-live="polite"></p>
         </section>
+
       </main>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="index.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

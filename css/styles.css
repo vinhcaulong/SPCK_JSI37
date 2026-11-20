@@ -51,7 +51,7 @@ main > section::before {
   width: 54%;
   height: auto;
   border-radius: 30px;
-  background: url("auth.png") no-repeat center / cover;
+  background: url("../auth.png") no-repeat center / cover;
   content: "";
   margin: 0;
 }
