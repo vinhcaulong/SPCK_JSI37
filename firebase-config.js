@@ -191,3 +191,5 @@ function setStatus(message) {
   const statusElement = document.getElementById("status");
   if (statusElement) statusElement.innerText = message;
 }
+
+// kết nối trực tiếp với SDK dạng mô-đun (v10+):
