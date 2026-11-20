@@ -19,7 +19,7 @@
         </a>
         <p class="sidebar-caption">MENU</p>
         <nav class="sidebar-nav">
-          <a class="nav-link is-active" href="index.html"
+          <a class="nav-link is-active" href="index.html" aria-current="page"
             ><span class="nav-icon">⌂</span>Tổng quan</a
           >
           <a class="nav-link" href="products.html"
@@ -124,15 +124,16 @@
                 <span>Doanh thu hôm nay</span
                 ><span class="stat-icon blue">↗</span>
               </div>
-              <strong class="stat-value">—</strong
-              ><span class="stat-note">Chưa có dữ liệu đơn hàng</span>
+              <strong class="stat-value" id="todayRevenue">—</strong
+              ><span class="stat-note">Đơn đã thanh toán hôm nay</span>
             </article>
             <article class="stat-card">
               <div class="stat-card-top">
-                <span>Đơn hàng</span><span class="stat-icon violet">▤</span>
+                <span>Đơn hàng (7 ngày)</span
+                ><span class="stat-icon violet">▤</span>
               </div>
-              <strong class="stat-value">—</strong
-              ><span class="stat-note">Chưa có dữ liệu đơn hàng</span>
+              <strong class="stat-value" id="weeklyOrderCount">—</strong
+              ><span class="stat-note">Tất cả trạng thái đơn hàng</span>
             </article>
             <article class="stat-card">
               <div class="stat-card-top">
@@ -157,14 +158,19 @@
               <div class="panel-heading">
                 <div>
                   <h3>Doanh thu</h3>
-                  <p>Biểu đồ doanh thu sẽ hiển thị khi có đơn hàng.</p>
+                  <p>Doanh thu đơn đã thanh toán trong 7 ngày qua.</p>
                 </div>
                 <span class="panel-menu" aria-hidden="true">•••</span>
               </div>
-              <div class="chart-empty">
-                <div class="empty-chart-icon">↗</div>
-                <strong>Chưa có dữ liệu</strong
-                ><span>Doanh thu sẽ được tổng hợp tại đây.</span>
+              <div
+                class="revenue-chart-container"
+                id="revenueChart"
+                aria-live="polite"
+              >
+                <div class="chart-empty">
+                  <div class="empty-chart-icon">↗</div>
+                  <strong>Đang tải doanh thu</strong>
+                </div>
               </div>
             </article>
             <article class="panel orders-panel" id="orders">
@@ -175,10 +181,12 @@
                 </div>
                 <a class="panel-link" href="#orders">Xem tất cả</a>
               </div>
-              <div class="empty-orders">
-                <span class="empty-orders-icon">▤</span
-                ><strong>Chưa có đơn hàng</strong
-                ><span>Đơn hàng mới sẽ xuất hiện tại đây.</span>
+              <div class="recent-order-list" id="recentOrdersList" aria-live="polite">
+                <div class="empty-orders">
+                  <span class="empty-orders-icon">▤</span
+                  ><strong>Chưa có đơn hàng</strong
+                  ><span>Đơn hàng mới sẽ xuất hiện tại đây.</span>
+                </div>
               </div>
             </article>
           </div>
@@ -197,6 +205,5 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/order.js"></script>
   </body>
 </html>

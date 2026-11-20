@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/inventory.css" />
+    <title>MiniBiz - Kho hàng</title>
+  </head>
+  <body class="dashboard-page">
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Điều hướng chính">
+        <a
+          class="sidebar-brand"
+          href="index.html"
+          aria-label="MiniBiz - Tổng quan"
+        >
+          <span class="brand-mark">M</span><span>Mini<span>Biz</span></span>
+        </a>
+        <p class="sidebar-caption">MENU</p>
+        <nav class="sidebar-nav">
+          <a class="nav-link" href="index.html"
+            ><span class="nav-icon">⌂</span>Tổng quan</a
+          >
+          <a class="nav-link" href="products.html"
+            ><span class="nav-icon">▦</span>Sản phẩm</a
+          >
+          <a class="nav-link" href="order.html"
+            ><span class="nav-icon">▤</span>Đơn hàng</a
+          >
+          <a class="nav-link is-active" href="inventory.html" aria-current="page"
+            ><span class="nav-icon">▣</span>Kho hàng</a
+          >
+          <a class="nav-link" href="customers.html"
+            ><span class="nav-icon">♙</span>Khách hàng</a
+          >
+          <a class="nav-link" href="revenue.html"
+            ><span class="nav-icon">↗</span>Doanh thu</a
+          >
+          <a class="nav-link" href="assistant.html"
+            ><span class="nav-icon">✦</span>Trợ lý AI</a
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="nav-link" href="index.html"
+            ><span class="nav-icon">⚙</span>Quay lại tổng quan</a
+          >
+          <div class="sidebar-profile">
+            <span class="avatar avatar-small" id="sidebarAvatar"></span>
+            <span class="profile-copy"
+              ><strong id="sidebarName">Username</strong
+              ><small>Quản trị viên</small></span
+            >
+            <button
+              class="icon-button signout-icon"
+              id="signOutButton"
+              type="button"
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
+            >
+              ↪
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="topbar">
+          <div class="topbar-welcome">
+            <p class="eyebrow">QUẢN LÝ CỬA HÀNG</p>
+            <h1>
+              Xin chào, <span id="greetingName">Username</span>!
+              <span aria-hidden="true">👋</span>
+            </h1>
+            <p class="topbar-date">Theo dõi tồn kho và số lượng đã xuất bán.</p>
+          </div>
+          <div class="topbar-actions">
+            <div class="topbar-balance" aria-live="polite">
+              <span>Số dư</span><strong id="topbarBalance">Đang tải...</strong>
+            </div>
+            <span class="avatar" id="topAvatar">V</span>
+            <span class="account-copy"
+              ><strong id="topName">Vinh</strong
+              ><small id="userEmail">Đang tải...</small></span
+            >
+          </div>
+        </header>
+
+        <section
+          class="dashboard-content inventory-content"
+          aria-labelledby="inventoryTitle"
+        >
+          <div class="section-heading">
+            <div>
+              <h2 id="inventoryTitle">Kho hàng</h2>
+              <p>
+                Tồn hiện tại lấy từ số lượng sản phẩm; mỗi đơn hoàn tất sẽ tự
+                trừ kho và ghi lịch sử xuất.
+              </p>
+            </div>
+          </div>
+
+          <div class="inventory-toolbar">
+            <label for="inventoryStore">Cửa hàng</label>
+            <select id="inventoryStore" disabled></select>
+            <p
+              id="inventoryStatus"
+              class="inventory-status"
+              role="status"
+              aria-live="polite"
+            >
+              Đang tải kho hàng...
+            </p>
+          </div>
+
+          <div class="inventory-stats">
+            <article class="stat-card">
+              <div class="stat-card-top">
+                <span>Mặt hàng</span><span class="stat-icon blue">▦</span>
+              </div>
+              <strong class="stat-value" id="inventoryProductCount">0</strong>
+              <span class="stat-note">Sản phẩm trong cửa hàng</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-card-top">
+                <span>Tổng đã nhập</span><span class="stat-icon violet">↗</span>
+              </div>
+              <strong class="stat-value" id="inventoryImportCount">0</strong>
+              <span class="stat-note">Tồn hiện tại cộng số đã xuất</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-card-top">
+                <span>Đã xuất bán</span><span class="stat-icon orange">↘</span>
+              </div>
+              <strong class="stat-value" id="inventoryExportCount">0</strong>
+              <span class="stat-note">Theo lịch sử xuất kho</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-card-top">
+                <span>Tồn kho hiện tại</span
+                ><span class="stat-icon green">▣</span>
+              </div>
+              <strong class="stat-value" id="inventoryStockCount">0</strong>
+              <span class="stat-note">Tổng số lượng còn lại</span>
+            </article>
+          </div>
+
+          <section
+            class="panel inventory-panel"
+            aria-labelledby="inventoryProductsTitle"
+          >
+            <div class="panel-heading">
+              <div>
+                <h3 id="inventoryProductsTitle">Tồn kho theo sản phẩm</h3>
+                <p>Số lượng sẽ giảm ngay khi đơn hàng được hoàn tất.</p>
+              </div>
+            </div>
+            <div class="inventory-table-wrap">
+              <table class="inventory-table">
+                <thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>SKU</th>
+                    <th>Đã nhập</th>
+                    <th>Đã xuất</th>
+                    <th>Tồn hiện tại</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryProductsBody">
+                  <tr>
+                    <td colspan="6" class="inventory-empty">
+                      Đang tải sản phẩm...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section
+            class="panel inventory-panel"
+            aria-labelledby="inventoryLogsTitle"
+          >
+            <div class="panel-heading">
+              <div>
+                <h3 id="inventoryLogsTitle">Lịch sử xuất kho</h3>
+                <p>Số lượng trước và sau khi hoàn tất từng đơn hàng.</p>
+              </div>
+            </div>
+            <div class="inventory-table-wrap">
+              <table class="inventory-table inventory-log-table">
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Sản phẩm</th>
+                    <th>Ghi chú</th>
+                    <th>Đã xuất</th>
+                    <th>Tồn trước</th>
+                    <th>Tồn sau</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryLogsBody">
+                  <tr>
+                    <td colspan="6" class="inventory-empty">
+                      Chưa có lịch sử xuất kho.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/inventory.js"></script>
+  </body>
+</html>

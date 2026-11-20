@@ -1,0 +1,49 @@
+.inventory-content { display: grid; gap: 18px; }
+.inventory-content > .section-heading { margin-bottom: 0; }
+.inventory-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(180px, 280px) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+.inventory-toolbar label { color: #50627b; font-size: 11px; font-weight: 650; }
+.inventory-toolbar select {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+  background: #fff;
+  color: #23344e;
+  font: inherit;
+  font-size: 12px;
+}
+.inventory-status { margin: 0; color: #64748b; font-size: 11px; text-align: right; }
+.inventory-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.inventory-panel { min-width: 0; }
+.inventory-panel .panel-heading { margin-bottom: 16px; }
+.inventory-table-wrap { width: 100%; overflow-x: auto; }
+.inventory-table { width: 100%; border-collapse: collapse; text-align: left; }
+.inventory-table th, .inventory-table td {
+  padding: 12px 14px;
+  border-top: 1px solid #edf0f5;
+  color: #50627b;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.inventory-table th { color: #8794a7; font-size: 10px; font-weight: 700; }
+.inventory-table td:first-child { color: #23344e; font-weight: 600; }
+.inventory-table td small { display: block; margin-top: 4px; color: #8794a7; font-size: 10px; font-weight: 400; }
+.inventory-empty { padding: 24px 12px !important; color: #8794a7 !important; font-weight: 400 !important; text-align: center; }
+.stock-badge { display: inline-flex; padding: 4px 8px; border-radius: 999px; background: #eaf8f1; color: #25815c; font-size: 10px; font-weight: 650; }
+.stock-badge.is-empty { background: #fff0ef; color: #c44747; }
+
+@media (max-width: 800px) {
+  .inventory-toolbar { grid-template-columns: auto minmax(0, 1fr); }
+  .inventory-status { grid-column: 1 / -1; text-align: left; }
+  .inventory-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .inventory-table { min-width: 720px; }
+}
+
+@media (max-width: 520px) {
+  .inventory-stats { grid-template-columns: minmax(0, 1fr); }
+}

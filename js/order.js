@@ -175,6 +175,36 @@
           return;
         }
 
+        const quantitiesByProduct = new Map();
+        items.forEach(function (item) {
+          const current = quantitiesByProduct.get(item.productId);
+          if (current) {
+            current.quantity += item.quantity;
+          } else {
+            quantitiesByProduct.set(item.productId, {
+              productId: item.productId,
+              productName: item.productName,
+              quantity: item.quantity
+            });
+          }
+        });
+        if (quantitiesByProduct.size > 249) {
+          orderMessage.textContent = "Đơn hàng có quá nhiều sản phẩm để xử lý cùng lúc.";
+          return;
+        }
+
+        const storeRef = firebase.firestore().collection("stores").doc(storeId);
+        const inventoryUpdates = [];
+        quantitiesByProduct.forEach(function (item) {
+          inventoryUpdates.push({
+            productId: item.productId,
+            productName: item.productName,
+            quantity: item.quantity,
+            productRef: storeRef.collection("products").doc(item.productId),
+            logRef: storeRef.collection("inventory_logs").doc()
+          });
+        });
+
         const orderData = {
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           customerId: customerId,
@@ -187,8 +217,7 @@
           subtotal: subtotal,
           total: total
         };
-        const orderRef = firebase.firestore().collection("stores").doc(storeId)
-          .collection("orders").doc(orderCode);
+        const orderRef = storeRef.collection("orders").doc(orderCode);
         const userRef = firebase.firestore().collection("users").doc(currentUser.uid);
 
         isSubmitting = true;
@@ -199,18 +228,65 @@
             if (orderSnapshot.exists) throw new Error("duplicate-order-code");
 
             return transaction.get(userRef).then(function (userSnapshot) {
-              const balanceData = userSnapshot.exists ? userSnapshot.data() : {};
-              const currentBalance = balanceData.balance == null ? 0 : Number(balanceData.balance);
-              const updatedBalance = currentBalance + total;
-              if (!isValidMoneyAmount(currentBalance) || !isValidMoneyAmount(updatedBalance)) {
-                throw new Error("invalid-user-balance");
-              }
+                return Promise.all(inventoryUpdates.map(function (item) {
+                  return transaction.get(item.productRef);
+                })).then(function (productSnapshots) {
+                  const stockChanges = [];
+                  productSnapshots.forEach(function (productSnapshot, index) {
+                    const item = inventoryUpdates[index];
+                    if (!productSnapshot.exists) {
+                      const error = new Error("missing-stock-product");
+                      error.productName = item.productName;
+                      throw error;
+                    }
 
-              transaction.set(orderRef, orderData);
-              transaction.set(userRef, {
-                email: currentUser.email || "",
-                balance: updatedBalance
-              }, { merge: true });
+                    const previousQuantity = Number(productSnapshot.data().quantity);
+                    if (!Number.isSafeInteger(previousQuantity) || previousQuantity < 0) {
+                      const error = new Error("invalid-stock");
+                      error.productName = item.productName;
+                      throw error;
+                    }
+                    if (item.quantity > previousQuantity) {
+                      const error = new Error("insufficient-stock");
+                      error.productName = item.productName;
+                      error.availableQuantity = previousQuantity;
+                      throw error;
+                    }
+
+                    stockChanges.push({
+                      item: item,
+                      previousQuantity: previousQuantity,
+                      newQuantity: previousQuantity - item.quantity
+                    });
+                  });
+
+                  const balanceData = userSnapshot.exists ? userSnapshot.data() : {};
+                  const currentBalance = balanceData.balance == null ? 0 : Number(balanceData.balance);
+                  const updatedBalance = currentBalance + total;
+                  if (!isValidMoneyAmount(currentBalance) || !isValidMoneyAmount(updatedBalance)) {
+                    throw new Error("invalid-user-balance");
+                  }
+
+                  transaction.set(orderRef, orderData);
+                  transaction.set(userRef, {
+                    email: currentUser.email || "",
+                    balance: updatedBalance
+                  }, { merge: true });
+                  stockChanges.forEach(function (change) {
+                    transaction.update(change.item.productRef, {
+                      quantity: change.newQuantity
+                    });
+                    transaction.set(change.item.logRef, {
+                      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                      newQuantity: change.newQuantity,
+                      note: "Xuất kho bán hàng cho đơn " + orderCode,
+                      previousQuantity: change.previousQuantity,
+                      productId: change.item.productId,
+                      quantity: change.item.quantity,
+                      type: "export"
+                    });
+                  });
+                });
             });
           });
         }).then(function () {
@@ -221,6 +297,15 @@
           console.error("Không thể lưu đơn hàng:", error);
           if (error.message === "duplicate-order-code") {
             orderMessage.textContent = "Mã đơn hàng đã tồn tại trong cửa hàng này.";
+          } else if (error.message === "insufficient-stock") {
+            orderMessage.textContent = "Tồn kho sản phẩm \"" + error.productName +
+              "\" chỉ còn " + error.availableQuantity + ". Hãy giảm số lượng trong đơn.";
+          } else if (error.message === "missing-stock-product") {
+            orderMessage.textContent = "Không tìm thấy sản phẩm \"" + error.productName +
+              "\" trong kho. Hãy xóa sản phẩm này khỏi đơn và chọn lại.";
+          } else if (error.message === "invalid-stock") {
+            orderMessage.textContent = "Số tồn kho của sản phẩm \"" + error.productName +
+              "\" không hợp lệ.";
           } else if (error.message === "invalid-user-balance") {
             orderMessage.textContent = "Số dư hiện tại không hợp lệ nên chưa thể ghi nhận thanh toán.";
           } else {
@@ -308,8 +393,8 @@
         }
 
         const listeningStoreId = subscribedStoreId;
-        unsubscribeProducts = firebase.firestore().collection("stores").doc(listeningStoreId)
-          .collection("products").onSnapshot(function (snapshot) {
+        const storeRef = firebase.firestore().collection("stores").doc(listeningStoreId);
+        unsubscribeProducts = storeRef.collection("products").onSnapshot(function (snapshot) {
             if (subscribedStoreId !== listeningStoreId) return;
             availableProducts = [];
             snapshot.forEach(function (productSnapshot) {

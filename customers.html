@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/customers.css" />
+    <title>MiniBiz - Khách hàng</title>
+  </head>
+  <body class="dashboard-page">
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Điều hướng chính">
+        <a class="sidebar-brand" href="index.html" aria-label="MiniBiz - Tổng quan">
+          <span class="brand-mark">M</span><span>Mini<span>Biz</span></span>
+        </a>
+        <p class="sidebar-caption">MENU</p>
+        <nav class="sidebar-nav">
+          <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Tổng quan</a>
+          <a class="nav-link" href="products.html"><span class="nav-icon">▦</span>Sản phẩm</a>
+          <a class="nav-link" href="order.html"><span class="nav-icon">▤</span>Đơn hàng</a>
+          <a class="nav-link" href="inventory.html"><span class="nav-icon">▣</span>Kho hàng</a>
+          <a class="nav-link is-active" href="customers.html" aria-current="page"><span class="nav-icon">♙</span>Khách hàng</a>
+          <a class="nav-link" href="revenue.html"><span class="nav-icon">↗</span>Doanh thu</a>
+          <a class="nav-link" href="assistant.html"><span class="nav-icon">✦</span>Trợ lý AI</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="nav-link" href="index.html"><span class="nav-icon">⚙</span>Quay lại tổng quan</a>
+          <div class="sidebar-profile">
+            <span class="avatar avatar-small" id="sidebarAvatar"></span>
+            <span class="profile-copy"><strong id="sidebarName">Username</strong><small>Quản trị viên</small></span>
+            <button class="icon-button signout-icon" id="signOutButton" type="button" aria-label="Đăng xuất" title="Đăng xuất">↪</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="topbar">
+          <div class="topbar-welcome">
+            <p class="eyebrow">QUẢN LÝ CỬA HÀNG</p>
+            <h1>Xin chào, <span id="greetingName">Username</span>! <span aria-hidden="true">👋</span></h1>
+            <p class="topbar-date">Bổ sung thông tin cho khách hàng đã mua hàng.</p>
+          </div>
+          <div class="topbar-actions">
+            <div class="topbar-balance" aria-live="polite">
+              <span>Số dư</span><strong id="topbarBalance">Đang tải...</strong>
+            </div>
+            <span class="avatar" id="topAvatar">V</span>
+            <span class="account-copy"><strong id="topName">Vinh</strong><small id="userEmail">Đang tải...</small></span>
+          </div>
+        </header>
+
+        <section class="dashboard-content customers-content" aria-labelledby="customersTitle">
+          <div class="section-heading">
+            <div>
+              <h2 id="customersTitle">Khách hàng</h2>
+              <p>Chọn khách hàng có trong đơn hàng trước đây để cập nhật hồ sơ.</p>
+            </div>
+          </div>
+
+          <div class="customer-toolbar">
+            <label for="customerStore">Cửa hàng</label>
+            <select id="customerStore" disabled>
+              <option>Đang tải cửa hàng...</option>
+            </select>
+            <p id="customerStatus" class="customer-status" role="status" aria-live="polite">Đang tải dữ liệu...</p>
+          </div>
+
+          <div class="customer-summary">
+            <article class="stat-card">
+              <div class="stat-card-top"><span>Khách đã mua hàng</span><span class="stat-icon blue">♙</span></div>
+              <strong class="stat-value" id="customerCount">0</strong>
+              <span class="stat-note">Khách hàng duy nhất trong lịch sử đơn</span>
+            </article>
+          </div>
+
+          <div class="customers-layout">
+            <section class="panel customer-list-panel" aria-labelledby="customerListTitle">
+              <div class="customer-list-heading">
+                <div>
+                  <h3 id="customerListTitle">Khách hàng đã mua</h3>
+                  <p>Danh sách được tổng hợp từ các đơn hàng của cửa hàng.</p>
+                </div>
+                <label class="customer-search-label" for="customerSearch">Tìm kiếm</label>
+                <input id="customerSearch" class="customer-search" type="search" placeholder="Tên, số điện thoại hoặc email" />
+              </div>
+              <div class="customer-table-wrap">
+                <table class="customer-table">
+                  <thead>
+                    <tr><th>Khách hàng</th><th>Số đơn</th><th>Hồ sơ</th></tr>
+                  </thead>
+                  <tbody id="customerRows">
+                    <tr><td class="customer-empty" colspan="3">Đang tải danh sách khách hàng...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <form class="panel customer-form" id="customerForm">
+              <div class="customer-form-heading">
+                <h3 id="customerFormTitle">Thông tin khách hàng</h3>
+                <p id="selectedCustomerSummary">Chọn khách hàng đã mua để bổ sung thông tin.</p>
+              </div>
+              <fieldset class="customer-detail-fields" id="customerDetailFields" disabled>
+                <label for="customerName">Tên khách hàng</label>
+                <input id="customerName" name="name" type="text" maxlength="120" autocomplete="name" required />
+                <label for="customerPhone">Số điện thoại</label>
+                <input id="customerPhone" name="phone" type="tel" maxlength="30" autocomplete="tel" />
+                <label for="customerEmail">Email</label>
+                <input id="customerEmail" name="email" type="email" maxlength="160" autocomplete="email" />
+                <label for="customerAddress">Địa chỉ</label>
+                <input id="customerAddress" name="address" type="text" maxlength="240" autocomplete="street-address" />
+              </fieldset>
+              <button class="customer-primary" id="customerSubmit" type="submit" disabled>Lưu thông tin</button>
+              <p class="customer-form-status" id="customerFormStatus" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/customers.js"></script>
+  </body>
+</html>
