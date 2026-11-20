@@ -24,7 +24,7 @@
           <a class="nav-link" href="index.html"
             ><span class="nav-icon">⌂</span>Tổng quan</a
           >
-          <a class="nav-link" href="products.html"
+          <a class="nav-link is-active" href="products.html" aria-current="page"
             ><span class="nav-icon">▦</span>Sản phẩm</a
           >
           <a class="nav-link" href="order.html"
@@ -77,6 +77,9 @@
             <p class="topbar-date">Quản lý cửa hàng và sản phẩm của bạn.</p>
           </div>
           <div class="topbar-actions">
+            <div class="topbar-balance" aria-live="polite">
+              <span>Số dư</span><strong id="topbarBalance">Đang tải...</strong>
+            </div>
             <a
               class="account-button"
               href="index.html"

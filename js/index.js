@@ -1,9 +1,11 @@
       const homeStatus = document.getElementById("homeStatus");
       const userEmail = document.getElementById("userEmail");
       const userBalance = document.getElementById("userBalance");
+      const topbarBalance = document.getElementById("topbarBalance");
       const currentDate = document.getElementById("currentDate");
       const productCount = document.getElementById("productCount");
       let unsubscribeCountStores = null;
+      let unsubscribeBalance = null;
       let productCountUnsubscribers = {};
       let productCountsByStore = {};
 
@@ -28,13 +30,35 @@
 
         listenProductCount(user.uid);
 
+        if (unsubscribeBalance) unsubscribeBalance();
         const userRef = firebase.firestore().collection("users").doc(user.uid);
-        userRef.get().then(function (snapshot) {
-          const userData = snapshot.exists ? snapshot.data() : { balance: 0 };
-          if (!snapshot.exists) return userRef.set({ email: user.email || "", balance: 0 }, { merge: true });
-          if (userData.balance != null) userBalance.textContent = Number(userData.balance).toLocaleString("vi-VN");
-        }).catch(function () {
+        unsubscribeBalance = userRef.onSnapshot(function (snapshot) {
+          if (!snapshot.exists) {
+            userRef.set({ email: user.email || "", balance: 0 }, { merge: true })
+              .catch(function (error) {
+                console.error("Không thể tạo hồ sơ số dư:", error);
+                homeStatus.textContent = "Không thể khởi tạo số dư tài khoản.";
+                topbarBalance.textContent = "Không tải được";
+              });
+            return;
+          }
+
+          const balance = Number(snapshot.data().balance || 0);
+          if (!Number.isFinite(balance)) {
+            topbarBalance.textContent = "Không hợp lệ";
+            homeStatus.textContent = "Số dư tài khoản không hợp lệ.";
+            return;
+          }
+
+          const formattedBalance = new Intl.NumberFormat("vi-VN", {
+            maximumFractionDigits: 2
+          }).format(balance);
+          userBalance.textContent = formattedBalance;
+          topbarBalance.textContent = formattedBalance + " đ";
+        }, function (error) {
+          console.error("Không tải được số dư tài khoản:", error);
           homeStatus.textContent = "Không tải được số dư tài khoản.";
+          topbarBalance.textContent = "Không tải được";
         });
 
       });

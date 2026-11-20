@@ -20,13 +20,13 @@
         </a>
         <p class="sidebar-caption">MENU</p>
         <nav class="sidebar-nav">
-          <a class="nav-link is-active" href="index.html"
+          <a class="nav-link" href="index.html"
             ><span class="nav-icon">⌂</span>Tổng quan</a
           >
           <a class="nav-link" href="products.html"
             ><span class="nav-icon">▦</span>Sản phẩm</a
           >
-          <a class="nav-link" href="order.html"
+          <a class="nav-link is-active" href="order.html" aria-current="page"
             ><span class="nav-icon">▤</span>Đơn hàng</a
           >
           <a class="nav-link" href="inventory.html"
@@ -76,8 +76,8 @@
             <p class="topbar-date">Tạo đơn hàng và ghi nhận thanh toán.</p>
           </div>
           <div class="topbar-actions">
-            <div class="order-balance">
-              Số dư <strong id="orderBalance">0 đ</strong>
+            <div class="topbar-balance" aria-live="polite">
+              <span>Số dư</span><strong id="topbarBalance">Đang tải...</strong>
             </div>
             <span class="avatar" id="topAvatar">V</span>
             <span class="account-copy"

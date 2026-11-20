@@ -7,7 +7,9 @@
       const storeForm = document.getElementById("storeForm");
       const storeSubmit = document.getElementById("storeSubmit");
       const storeStatus = document.getElementById("storeStatus");
+      const topbarBalance = document.getElementById("topbarBalance");
       let unsubscribeStores = null;
+      let unsubscribeBalance = null;
       let productUnsubscribers = {};
       let productsByStore = {};
       let ownedStores = [];
@@ -26,6 +28,22 @@
         document.getElementById("topAvatar").textContent = initial;
         document.getElementById("sidebarAvatar").textContent = initial;
         userEmail.textContent = user.email || "";
+
+        if (unsubscribeBalance) unsubscribeBalance();
+        unsubscribeBalance = firebase.firestore().collection("users").doc(user.uid)
+          .onSnapshot(function (snapshot) {
+            const balance = snapshot.exists ? Number(snapshot.data().balance || 0) : 0;
+            if (!Number.isFinite(balance)) {
+              topbarBalance.textContent = "Không hợp lệ";
+              return;
+            }
+            topbarBalance.textContent = new Intl.NumberFormat("vi-VN", {
+              maximumFractionDigits: 2
+            }).format(balance) + " đ";
+          }, function (error) {
+            console.error("Không tải được số dư tài khoản:", error);
+            topbarBalance.textContent = "Không tải được";
+          });
 
         if (unsubscribeStores) unsubscribeStores();
         Object.keys(productUnsubscribers).forEach(function (storeId) {

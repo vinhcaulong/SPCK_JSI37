@@ -7,7 +7,7 @@
       const orderCodeInput = document.getElementById("orderCode");
       const orderMessage = document.getElementById("orderMessage");
       const submitOrder = document.getElementById("submitOrder");
-      const orderBalance = document.getElementById("orderBalance");
+      const topbarBalance = document.getElementById("topbarBalance");
       const itemCurrency = new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 });
       let currentUser = null;
       let ownedStores = [];
@@ -66,10 +66,11 @@
         unsubscribeBalance = firebase.firestore().collection("users").doc(user.uid)
           .onSnapshot(function (snapshot) {
             const balance = snapshot.exists ? Number(snapshot.data().balance) : 0;
-            orderBalance.textContent = (Number.isFinite(balance) ? itemCurrency.format(balance) : "0") + " đ";
+            topbarBalance.textContent = (Number.isFinite(balance) ? itemCurrency.format(balance) : "0") + " đ";
           }, function (error) {
             console.error("Không tải được số dư:", error);
             orderMessage.textContent = "Không tải được số dư tài khoản.";
+            topbarBalance.textContent = "Không tải được";
           });
       });
 
