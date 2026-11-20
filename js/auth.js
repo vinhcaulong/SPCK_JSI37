@@ -25,8 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "auth/wrong-password": "Mật khẩu không đúng.",
       "auth/weak-password": "Mật khẩu cần có ít nhất 6 ký tự.",
       "auth/popup-closed-by-user": "Bạn đã đóng cửa sổ đăng nhập.",
+      "auth/popup-blocked": "Trình duyệt đã chặn cửa sổ đăng nhập. Hãy cho phép popup rồi thử lại.",
       "auth/account-exists-with-different-credential": "Email này đã được dùng với phương thức đăng nhập khác.",
-      "auth/network-request-failed": "Không thể kết nối. Hãy kiểm tra mạng rồi thử lại."
+      "auth/network-request-failed": "Không thể kết nối. Hãy kiểm tra mạng rồi thử lại.",
+      "auth/unauthorized-domain": "Tên miền hiện tại chưa được cho phép trong Firebase Authentication."
     };
     return errorMessages[error.code] || "Đã xảy ra lỗi. Vui lòng thử lại.";
   }
@@ -67,12 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // Firebase auth state is the fallback for both email/password and OAuth redirects.
+  // Firebase auth state is the fallback for email/password and popup sign-in.
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) completeAuthentication(user).catch(handleError);
   });
 
-  // Complete Google/Facebook sign-in after Firebase returns to this page.
+  // Complete any pending OAuth redirect from an earlier sign-in attempt.
   firebase.auth().getRedirectResult()
     .then(function (result) {
       if (result && result.user) return completeAuthentication(result.user);
@@ -115,8 +117,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     button.addEventListener("click", function () {
       button.disabled = true;
-      showStatus("Đang mở đăng nhập...");
-      firebase.auth().signInWithRedirect(item.provider())
+      showStatus("Đang đăng nhập...");
+      firebase.auth().signInWithPopup(item.provider())
+        .then(function (result) {
+          return completeAuthentication(result.user);
+        })
         .catch(function (error) {
           showStatus(getErrorMessage(error));
           button.disabled = false;

@@ -1,4 +1,4 @@
-.products-content { padding-top: 0; }
+.products-content { padding-top: 34; }
 .store-create-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 10px 14px; margin-bottom: 16px; }
 .store-create-heading { grid-column: 1 / -1; }
 .store-create-heading h3 { margin: 0 0 4px; color: #20344f; font-size: 14px; }

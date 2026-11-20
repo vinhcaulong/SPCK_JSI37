@@ -1,11 +1,286 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f6fa" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/order.css" />
+    <title>MiniBiz - Đơn hàng</title>
+  </head>
+  <body class="dashboard-page">
+    <div class="dashboard-shell">
+      <aside class="sidebar" aria-label="Điều hướng chính">
+        <a
+          class="sidebar-brand"
+          href="index.html"
+          aria-label="MiniBiz - Tổng quan"
+        >
+          <span class="brand-mark">M</span><span>Mini<span>Biz</span></span>
+        </a>
+        <p class="sidebar-caption">MENU</p>
+        <nav class="sidebar-nav">
+          <a class="nav-link is-active" href="index.html"
+            ><span class="nav-icon">⌂</span>Tổng quan</a
+          >
+          <a class="nav-link" href="products.html"
+            ><span class="nav-icon">▦</span>Sản phẩm</a
+          >
+          <a class="nav-link" href="order.html"
+            ><span class="nav-icon">▤</span>Đơn hàng</a
+          >
+          <a class="nav-link" href="inventory.html"
+            ><span class="nav-icon">▣</span>Kho hàng</a
+          >
+          <a class="nav-link" href="customers.html"
+            ><span class="nav-icon">♙</span>Khách hàng</a
+          >
+          <a class="nav-link" href="revenue.html"
+            ><span class="nav-icon">↗</span>Doanh thu</a
+          >
+          <a class="nav-link" href="assistant.html"
+            ><span class="nav-icon">✦</span>Trợ lý AI</a
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <a class="nav-link" href="index.html"
+            ><span class="nav-icon">⚙</span>Quay lại tổng quan</a
+          >
+          <div class="sidebar-profile">
+            <span class="avatar avatar-small" id="sidebarAvatar"></span>
+            <span class="profile-copy"
+              ><strong id="sidebarName">Username</strong
+              ><small>Quản trị viên</small></span
+            >
+            <button
+              class="icon-button signout-icon"
+              id="signOutButton"
+              type="button"
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
+            >
+              ↪
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="topbar">
+          <div class="topbar-welcome">
+            <p class="eyebrow">QUẢN LÝ CỬA HÀNG</p>
+            <h1>
+              Xin chào, <span id="greetingName">Username</span>!
+              <span aria-hidden="true">👋</span>
+            </h1>
+            <p class="topbar-date">Tạo đơn hàng và ghi nhận thanh toán.</p>
+          </div>
+          <div class="topbar-actions">
+            <div class="order-balance">
+              Số dư <strong id="orderBalance">0 đ</strong>
+            </div>
+            <span class="avatar" id="topAvatar">V</span>
+            <span class="account-copy"
+              ><strong id="topName">Vinh</strong
+              ><small id="userEmail">Đang tải...</small></span
+            >
+          </div>
+        </header>
+
+        <section
+          class="dashboard-content order-content"
+          aria-labelledby="orderTitle"
+        >
+          <div class="section-heading">
+            <div>
+              <h2 id="orderTitle">Tạo đơn hàng</h2>
+              <p>Chọn sản phẩm, nhập thông tin đơn và xác nhận thanh toán.</p>
+            </div>
+          </div>
+
+          <form class="panel order-form" id="orderForm">
+            <div class="order-fields">
+              <label
+                >Cửa hàng
+                <select id="orderStore" required disabled></select>
+              </label>
+              <label
+                >Phương thức thanh toán
+                <select id="paymentMethod" required>
+                  <option value="cash">Tiền mặt (cash)</option>
+                  <option value="bank_transfer">
+                    Chuyển khoản (bank_transfer)
+                  </option>
+                  <option value="card">Thẻ (card)</option>
+                  <option value="e_wallet">Ví điện tử (e_wallet)</option>
+                </select>
+              </label>
+            </div>
+
+            <section
+              class="order-catalog-section"
+              aria-labelledby="orderCatalogTitle"
+            >
+              <div class="order-items-heading">
+                <div>
+                  <h3 id="orderCatalogTitle">Sản phẩm hiện có</h3>
+                  <p>Chọn sản phẩm trong danh sách để thêm vào đơn hàng.</p>
+                </div>
+              </div>
+              <div class="order-catalog" id="orderCatalog" aria-live="polite">
+                <p class="order-catalog-empty">
+                  Chọn cửa hàng để tải sản phẩm.
+                </p>
+              </div>
+            </section>
+
+            <section
+              class="order-checkout"
+              id="orderCheckout"
+              hidden
+              aria-labelledby="checkoutTitle"
+            >
+              <div class="order-items-heading">
+                <div>
+                  <h3 id="checkoutTitle">Thông tin thanh toán</h3>
+                  <p>Nhập mã đơn hàng và mã khách hàng để tiếp tục.</p>
+                </div>
+              </div>
+              <div class="order-items" id="orderItems"></div>
+              <template id="orderItemTemplate">
+                <fieldset class="order-item">
+                  <legend>Sản phẩm</legend>
+                  <label
+                    >Mã sản phẩm
+                    <input
+                      class="item-product-id"
+                      type="text"
+                      maxlength="150"
+                      readonly
+                      required
+                    />
+                  </label>
+                  <label
+                    >Tên sản phẩm
+                    <input
+                      class="item-product-name"
+                      type="text"
+                      maxlength="120"
+                      readonly
+                      required
+                    />
+                  </label>
+                  <label
+                    >Số lượng
+                    <input
+                      class="item-quantity"
+                      type="number"
+                      min="1"
+                      step="1"
+                      value="1"
+                      required
+                    />
+                  </label>
+                  <label
+                    >Đơn giá (đ)
+                    <input
+                      class="item-unit-price"
+                      type="number"
+                      min="0"
+                      step="any"
+                      value="0"
+                      readonly
+                      required
+                    />
+                  </label>
+                  <div class="item-subtotal">
+                    Thành tiền <strong>0 đ</strong>
+                  </div>
+                  <button
+                    class="order-remove-item"
+                    type="button"
+                    aria-label="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </fieldset>
+              </template>
+
+              <div class="order-fields">
+                <label
+                  >Mã đơn hàng
+                  <input
+                    id="orderCode"
+                    type="text"
+                    maxlength="64"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    placeholder="Ví dụ: DH001"
+                    required
+                  />
+                  <small class="order-field-hint"
+                    >Mã sẽ tự chuyển thành chữ hoa. Dùng chữ, số, dấu gạch ngang
+                    (-) hoặc gạch dưới (_).</small
+                  >
+                </label>
+                <label
+                  >Mã khách hàng
+                  <input
+                    id="customerId"
+                    type="text"
+                    maxlength="120"
+                    placeholder="Ví dụ: nguyenvana"
+                    required
+                  />
+                </label>
+                <label
+                  >Giảm giá (đ)
+                  <input
+                    id="discount"
+                    type="number"
+                    min="0"
+                    step="1"
+                    value="0"
+                    required
+                  />
+                </label>
+              </div>
+
+              <p class="order-payment-note">
+                Thanh toán mô phỏng: khi xác nhận, đơn sẽ hoàn thành và tổng
+                tiền được cộng vào số dư.
+              </p>
+              <div class="order-totals" aria-live="polite">
+                <p>Tạm tính <strong id="subtotalDisplay">0 đ</strong></p>
+                <p>Giảm giá <strong id="discountDisplay">0 đ</strong></p>
+                <p class="order-grand-total">
+                  Tổng cộng <strong id="totalDisplay">0 đ</strong>
+                </p>
+              </div>
+              <button
+                class="order-submit"
+                id="submitOrder"
+                type="submit"
+                disabled
+              >
+                Thanh toán &amp; hoàn tất đơn
+              </button>
+            </section>
+            <p
+              class="order-status"
+              id="orderMessage"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/order.js"></script>
+  </body>
 </html>
